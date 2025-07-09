@@ -1,0 +1,71 @@
+import { Box, Grid, Typography, alpha } from "@mui/material";
+
+export default function BatteryHeader({
+  displayIdentifier,
+  voltageType,
+  cRate,
+  stressTest,
+}) {
+  const formatLabel = (text) => {
+    if (typeof text !== "string" || !text) return "N/A";
+    return text.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
+  };
+
+  return (
+    <Box
+      sx={{
+        p: 1.5,
+        bgcolor: (theme) => alpha(theme.palette.primary.main, 0.07),
+        borderBottomLeftRadius: 12,
+        borderBottomRightRadius: 12,
+        textAlign: "center",
+      }}
+    >
+      {/* Name Row */}
+      <Typography
+        variant="h4"
+        component="h2"
+        sx={{
+          fontWeight: "bold",
+          color: "text.primary",
+          mb: 1,
+        }}
+      >
+        {displayIdentifier}
+      </Typography>
+      {/* Data Row */}
+      <Grid
+        container
+        spacing={2}
+        justifyContent="center"
+        alignItems="center"
+        sx={{ mt: 0.5 }}
+      >
+        <Grid item xs={4} sx={{ mr: 2 }}>
+          <Typography variant="h6" fontWeight={600} color="text.primary">
+            {formatLabel(voltageType)}
+          </Typography>
+          <Typography variant="caption" color="text.secondary">
+            Voltage Type
+          </Typography>
+        </Grid>
+        <Grid item xs={4} sx={{ mr: 2 }}>
+          <Typography variant="h6" fontWeight={600} color="text.primary">
+            {cRate}
+          </Typography>
+          <Typography variant="caption" color="text.secondary">
+            C Rate
+          </Typography>
+        </Grid>
+        <Grid item xs={4} sx={{ mr: 0 }}>
+          <Typography variant="h6" fontWeight={600} color="text.primary">
+            {stressTest}
+          </Typography>
+          <Typography variant="caption" color="text.secondary">
+            Stress Test
+          </Typography>
+        </Grid>
+      </Grid>
+    </Box>
+  );
+}

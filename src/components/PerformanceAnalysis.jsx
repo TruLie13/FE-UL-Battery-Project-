@@ -7,7 +7,6 @@ import {
   useTheme,
 } from "@mui/material";
 
-// Helper for ordinal suffix
 const ordinalSuffix = (n) => {
   if (n === 1) return "1st";
   if (n === 2) return "2nd";
@@ -80,9 +79,8 @@ export default function PerformanceAnalysis({
   resilienceScore,
   balancedScore,
   rankings,
-  selectedFilter, // <-- Pass this from parent!
+  selectedFilter,
 }) {
-  // Array of stats with keys matching filter values
   const stats = [
     {
       key: "durability_score",
@@ -104,7 +102,6 @@ export default function PerformanceAnalysis({
     },
   ];
 
-  // Sort so selectedFilter is first
   stats.sort((a, b) =>
     a.key === selectedFilter ? -1 : b.key === selectedFilter ? 1 : 0
   );
@@ -113,6 +110,8 @@ export default function PerformanceAnalysis({
     <Box
       sx={{
         p: { xs: 2, md: 4 },
+        pt: { md: 1 },
+        pb: { md: 1 },
         bgcolor: (theme) => alpha(theme.palette.background.paper, 0.7),
       }}
     >
@@ -120,11 +119,11 @@ export default function PerformanceAnalysis({
         variant="subtitle1"
         fontWeight="bold"
         color="text.primary"
-        mb={2}
+        mb={1}
       >
         Performance Analysis
       </Typography>
-      <Stack spacing={2}>
+      <Stack spacing={1}>
         {stats.map((stat) => (
           <PerformanceScoreDisplay
             key={stat.key}

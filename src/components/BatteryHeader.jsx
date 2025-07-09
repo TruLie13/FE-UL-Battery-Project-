@@ -16,12 +16,11 @@ export default function BatteryHeader({
       sx={{
         p: 1.5,
         bgcolor: (theme) => alpha(theme.palette.primary.main, 0.07),
-        borderBottomLeftRadius: 12,
-        borderBottomRightRadius: 12,
+
         textAlign: "center",
       }}
     >
-      {/* Name Row */}
+      {/* Battery Name Row */}
       <Typography
         variant="h4"
         component="h2"
@@ -33,15 +32,10 @@ export default function BatteryHeader({
       >
         {displayIdentifier}
       </Typography>
+
       {/* Data Row */}
-      <Grid
-        container
-        spacing={2}
-        justifyContent="center"
-        alignItems="center"
-        sx={{ mt: 0.5 }}
-      >
-        <Grid item xs={4} sx={{ mr: 2 }}>
+      <Grid container spacing={5} justifyContent="center" alignItems="center">
+        <Grid item xs={4}>
           <Typography variant="h6" fontWeight={600} color="text.primary">
             {formatLabel(voltageType)}
           </Typography>
@@ -49,7 +43,7 @@ export default function BatteryHeader({
             Voltage Type
           </Typography>
         </Grid>
-        <Grid item xs={4} sx={{ mr: 2 }}>
+        <Grid item xs={4}>
           <Typography variant="h6" fontWeight={600} color="text.primary">
             {cRate}
           </Typography>
@@ -57,7 +51,7 @@ export default function BatteryHeader({
             C Rate
           </Typography>
         </Grid>
-        <Grid item xs={4} sx={{ mr: 0 }}>
+        <Grid item xs={4}>
           <Typography variant="h6" fontWeight={600} color="text.primary">
             {stressTest}
           </Typography>

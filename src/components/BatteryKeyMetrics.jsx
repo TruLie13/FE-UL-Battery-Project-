@@ -4,7 +4,6 @@ import LoopIcon from "@mui/icons-material/Loop";
 import ThermostatIcon from "@mui/icons-material/Thermostat";
 import { Box, Grid, Stack, Typography, alpha } from "@mui/material";
 
-// MetricItem as a subcomponent
 const MetricItem = ({
   icon: Icon,
   label,
@@ -69,6 +68,10 @@ const MetricItem = ({
   </Stack>
 );
 
+const metricGridStyle = {
+  minWidth: { xs: "10rem", sm: "10rem", md: "5rem" },
+};
+
 export default function BatteryKeyMetrics({
   stateOfHealth,
   cycleCount,
@@ -88,11 +91,11 @@ export default function BatteryKeyMetrics({
       <Grid
         container
         spacing={2}
-        sx={{ maxWidth: 350, margin: "0 auto" }}
+        sx={{ margin: "0 auto" }}
         justifyContent="center"
         alignItems="center"
       >
-        <Grid item xs={6}>
+        <Grid item xs={6} sx={{ ...metricGridStyle }}>
           <MetricItem
             icon={HealthAndSafetyIcon}
             label="State Of Health"
@@ -100,10 +103,10 @@ export default function BatteryKeyMetrics({
             unit="%"
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={6} sx={{ ...metricGridStyle }}>
           <MetricItem icon={LoopIcon} label="Cycles" value={cycleCount} />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={6} sx={{ ...metricGridStyle }}>
           <MetricItem
             icon={ThermostatIcon}
             label="Avg Temp"
@@ -111,7 +114,7 @@ export default function BatteryKeyMetrics({
             unit="°C"
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={6} sx={{ ...metricGridStyle }}>
           <MetricItem
             icon={BatteryChargingFullIcon}
             label="Avg Discharge"

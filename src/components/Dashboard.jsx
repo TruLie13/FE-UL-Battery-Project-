@@ -4,16 +4,12 @@ import {
   CircularProgress,
   Container,
   Grid,
-  ToggleButton,
-  ToggleButtonGroup,
   Typography,
 } from "@mui/material";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { fetchSummaryData } from "../services/batteryApi";
 import BatteryCard from "./BatteryCard";
-import DiamondIcon from "@mui/icons-material/Diamond";
-import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-import BalanceIcon from "@mui/icons-material/Balance";
+import DashboardFilter from "./DashboardFilter.jsx";
 
 function getRankings(batteries, metric) {
   const sorted = [...batteries]
@@ -128,6 +124,7 @@ function Dashboard() {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+      {/* Start dashboard header - Dashboard Title and Filter */}
       <Box
         ref={fixedHeaderRef}
         sx={{
@@ -147,57 +144,24 @@ function Dashboard() {
             variant="h5"
             component="h1"
             gutterBottom
-            sx={{ mt: 1, mb: 2, fontWeight: "bold" }}
+            sx={{ mt: 1, mb: 1, fontWeight: "bold" }}
           >
             Battery Performance Dashboard
           </Typography>
-
-          <ToggleButtonGroup
-            value={selectedFilter}
-            exclusive
+          <DashboardFilter
+            selectedFilter={selectedFilter}
             onChange={handleFilterChange}
-            aria-label="Performance filter"
-            color="primary"
-            sx={{ mt: 3, mb: 3 }}
-          >
-            <ToggleButton value="durability_score">
-              {" "}
-              <DiamondIcon sx={{ mr: 1 }} /> Durability
-            </ToggleButton>
-            <ToggleButton value="resilience_score">
-              <TrendingUpIcon sx={{ mr: 1 }} /> Resilience
-            </ToggleButton>
-            <ToggleButton value="balanced_score">
-              {" "}
-              <BalanceIcon sx={{ mr: 1 }} /> Balanced
-            </ToggleButton>
-          </ToggleButtonGroup>
+          />
         </Container>
-        <Typography
-          component="body1"
-          color="text.secondary"
-          align="center"
-          sx={{
-            p: 1.5,
-            maxWidth: "340",
-            mx: "auto",
-            color: (theme) => theme.palette.text.secondary,
-          }}
-        >
-          {selectedFilter === "durability_score"
-            ? "Durability: How many times you can use the battery before it wears out."
-            : selectedFilter === "resilience_score"
-            ? "Resilience: How much of its original power the battery keeps as it ages."
-            : "Balanced: How long the battery lasts and how much power it keeps."}
-        </Typography>
       </Box>
 
+      {/* Start dashboard body - Battery Card section */}
       <Box
         sx={{
           flexGrow: 1,
           pt: `${fixedHeaderHeight}px`,
           pb: 4,
-          mt: "2rem",
+          mt: 3,
           display: "flex",
           justifyContent: "center",
           flexDirection: "column",

@@ -27,7 +27,7 @@ export default function DashboardFilter({ selectedFilter, onChange }) {
         aria-label="Performance filter"
         color="primary"
         sx={{
-          mt: 2,
+          mt: 4,
           mb: 1,
           display: "flex",
           justifyContent: "center",

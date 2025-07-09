@@ -69,7 +69,7 @@ const MetricItem = ({
 );
 
 const metricGridStyle = {
-  minWidth: { xs: "10rem", sm: "10rem", md: "5rem" },
+  minWidth: { xs: "10.3rem", sm: "10rem", md: "5rem" },
 };
 
 export default function BatteryKeyMetrics({
@@ -81,48 +81,59 @@ export default function BatteryKeyMetrics({
   return (
     <Box
       sx={{
-        p: 1.5,
         bgcolor: (theme) => alpha(theme.palette.background.paper, 0.7),
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
       }}
     >
-      <Grid
-        container
-        spacing={2}
-        sx={{ margin: "0 auto" }}
-        justifyContent="center"
-        alignItems="center"
+      <Typography
+        variant="subtitle1"
+        fontWeight="bold"
+        color="text.primary"
+        mb={1}
+        sx={{ px: { xs: 2, sm: 2, md: 4 }, pt: 1.5 }}
       >
-        <Grid item xs={6} sx={{ ...metricGridStyle }}>
-          <MetricItem
-            icon={HealthAndSafetyIcon}
-            label="State Of Health"
-            value={stateOfHealth}
-            unit="%"
-          />
+        Key Metrics
+      </Typography>
+      <Box
+        sx={{
+          pb: 1.5,
+          pt: 0,
+          pr: 0,
+          pl: 0,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Grid container spacing={2} justifyContent="center" alignItems="center">
+          <Grid item xs={6} sx={{ ...metricGridStyle }}>
+            <MetricItem
+              icon={HealthAndSafetyIcon}
+              label="State Of Health"
+              value={stateOfHealth}
+              unit="%"
+            />
+          </Grid>
+          <Grid item xs={6} sx={{ ...metricGridStyle }}>
+            <MetricItem icon={LoopIcon} label="Cycles" value={cycleCount} />
+          </Grid>
+          <Grid item xs={6} sx={{ ...metricGridStyle }}>
+            <MetricItem
+              icon={ThermostatIcon}
+              label="Avg Temp"
+              value={overallAvgTemp}
+              unit="°C"
+            />
+          </Grid>
+          <Grid item xs={6} sx={{ ...metricGridStyle }}>
+            <MetricItem
+              icon={BatteryChargingFullIcon}
+              label="Avg Discharge"
+              value={overallAvgDischarge}
+              unit="Ah"
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={6} sx={{ ...metricGridStyle }}>
-          <MetricItem icon={LoopIcon} label="Cycles" value={cycleCount} />
-        </Grid>
-        <Grid item xs={6} sx={{ ...metricGridStyle }}>
-          <MetricItem
-            icon={ThermostatIcon}
-            label="Avg Temp"
-            value={overallAvgTemp}
-            unit="°C"
-          />
-        </Grid>
-        <Grid item xs={6} sx={{ ...metricGridStyle }}>
-          <MetricItem
-            icon={BatteryChargingFullIcon}
-            label="Avg Discharge"
-            value={overallAvgDischarge}
-            unit="Ah"
-          />
-        </Grid>
-      </Grid>
+      </Box>
     </Box>
   );
 }

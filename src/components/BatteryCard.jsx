@@ -67,10 +67,6 @@ function BatteryCard({ battery, rankings, selectedFilter }) {
         boxShadow: 8,
         overflow: "hidden",
         transition: "transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out",
-        "&:hover": {
-          transform: "translateY(-8px)",
-          boxShadow: 12,
-        },
         bgcolor: "background.paper",
       }}
     >

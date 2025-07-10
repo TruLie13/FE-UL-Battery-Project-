@@ -10,6 +10,7 @@ import {
   MobileStepper,
   useTheme,
   useMediaQuery,
+  Link,
 } from "@mui/material";
 import DiamondIcon from "@mui/icons-material/Diamond";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
@@ -17,6 +18,7 @@ import BalanceIcon from "@mui/icons-material/Balance";
 import BatteryChargingFullIcon from "@mui/icons-material/BatteryChargingFull";
 import GroupWorkIcon from "@mui/icons-material/GroupWork";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 const onboardingSteps = [
   {
@@ -38,6 +40,54 @@ const onboardingSteps = [
         <br />
         ranked from best to worst.
       </Typography>
+    ),
+  },
+  {
+    title: (
+      <>
+        Real Data,
+        <br />
+        Real Batteries
+      </>
+    ),
+    icon: <BatteryChargingFullIcon fontSize="large" color="primary" />,
+    text: (
+      <Box sx={{ textAlign: "center" }}>
+        This dashboard features data from
+        <br />
+        <b>21 batteries</b>, tested over <br />
+        <b> 8985 cycles</b> and{" "}
+        <b>
+          <br />
+          1,591,470 data points
+        </b>
+        .<br />
+        <br />
+        Data provided by{" "}
+        <Link
+          href="https://zenodo.org/records/7658813"
+          target="_blank"
+          rel="noopener noreferrer"
+          underline="never"
+          color="primary"
+          sx={{
+            fontWeight: "bold",
+            display: "inline-flex",
+            alignItems: "baseline",
+          }}
+        >
+          UL Research
+          <OpenInNewIcon
+            fontSize="small"
+            sx={{
+              ml: 0.5,
+              verticalAlign: "text-bottom",
+              position: "relative",
+              top: 1,
+            }}
+          />
+        </Link>
+      </Box>
     ),
   },
   {
@@ -92,11 +142,22 @@ const onboardingSteps = [
       <Box sx={{ textAlign: "center" }}>
         Each battery is scored and ranked by:
         <Box sx={{ mt: 3 }}>
-          <b>Durability</b>: How many cycles it lasts
-          <br />
-          <b>Resilience</b>: How well it keeps its power
-          <br />
-          <b>Balanced</b>: A mix of both
+          <Typography component="div" fontWeight="bold" color="primary">
+            Durability
+          </Typography>
+          <Typography component="div">How many cycles it lasts</Typography>
+        </Box>
+        <Box sx={{ mt: 2 }}>
+          <Typography component="div" fontWeight="bold" color="primary">
+            Resilience
+          </Typography>
+          <Typography component="div">How well it keeps its power</Typography>
+        </Box>
+        <Box sx={{ mt: 2 }}>
+          <Typography component="div" fontWeight="bold" color="primary">
+            Balanced
+          </Typography>
+          <Typography component="div">A mix of both</Typography>
         </Box>
         <Box sx={{ mt: 3 }}>
           <Typography component="span" fontWeight="bold">
@@ -111,9 +172,24 @@ const onboardingSteps = [
     icon: <BatteryChargingFullIcon fontSize="large" color="primary" />,
     text: (
       <Box sx={{ textAlign: "center" }}>
-        <b>Click a battery card</b> for details.
+        <Typography
+          component="div"
+          fontWeight="bold"
+          color="primary"
+          sx={{ fontSize: "1.15rem" }}
+        >
+          Ready to see which batteries perform best?
+        </Typography>
         <br />
-        Use the view and sort buttons to change how you see the list.
+        <Typography component="div" sx={{ mt: 2 }}>
+          <b>Click "Got it!" below</b> to view the full battery rankings and
+          start exploring.
+        </Typography>
+        <Box sx={{ mt: 3 }}>
+          <Typography component="div" color="text.secondary">
+            You can always revisit the onboarding anytime from the menu.
+          </Typography>
+        </Box>
       </Box>
     ),
   },
@@ -152,7 +228,7 @@ export default function OnboardingDialog({ open, onClose }) {
     >
       <Box
         sx={{
-          minHeight: isMobile ? "100vh" : 500,
+          minHeight: isMobile ? "100vh" : 525,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",

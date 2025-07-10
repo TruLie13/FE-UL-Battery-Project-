@@ -5,14 +5,11 @@ import {
   Container,
   Grid,
   Typography,
-  IconButton,
-  Tooltip,
 } from "@mui/material";
-import ViewModuleIcon from "@mui/icons-material/ViewModule"; // Full view icon
-import ViewListIcon from "@mui/icons-material/ViewList"; // Compact view icon
 import { useCallback, useEffect, useRef, useState } from "react";
 import { fetchSummaryData } from "../../services/batteryApi.js";
 import BatteryCard from "../batteryCard/BatteryCard.Component.jsx";
+import DashboardActionBar from "./DashboardActionBar.jsx";
 import DashboardFilter from "./DashboardFilter.Component.jsx";
 
 function getRankings(batteries, metric) {
@@ -32,7 +29,7 @@ function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedFilter, setSelectedFilter] = useState("durability_score");
-  const [compact, setCompact] = useState(false); // <-- NEW
+  const [compact, setCompact] = useState(false);
 
   const fixedHeaderRef = useRef(null);
   const [fixedHeaderHeight, setFixedHeaderHeight] = useState(0);
@@ -129,7 +126,7 @@ function Dashboard() {
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      {/* Start dashboard header - Dashboard Title and Filter */}
+      {/* --- Dashboard header - Dashboard Title and Filter --- */}
       <Box
         ref={fixedHeaderRef}
         sx={{
@@ -149,7 +146,7 @@ function Dashboard() {
             variant="h5"
             component="h1"
             gutterBottom
-            sx={{ mt: 1, mb: 1, fontWeight: "bold" }}
+            sx={{ mt: 1, fontWeight: "bold" }}
           >
             Battery Performance Dashboard
           </Typography>
@@ -160,27 +157,18 @@ function Dashboard() {
         </Container>
       </Box>
 
-      {/* --- Compact Toggle Button --- */}
-      <Container maxWidth="md" sx={{ pt: `${fixedHeaderHeight + 8}px`, pb: 1 }}>
-        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Tooltip title={compact ? "Show Full View" : "Show Compact View"}>
-            <IconButton
-              aria-label="toggle compact/full"
-              onClick={() => setCompact((v) => !v)}
-              size="large"
-            >
-              {compact ? <ViewModuleIcon /> : <ViewListIcon />}
-            </IconButton>
-          </Tooltip>
-        </Box>
-      </Container>
-      {/* --- End Toggle Button --- */}
+      {/* --- Dashboard Action Bar --- */}
+      <DashboardActionBar
+        compact={compact}
+        setCompact={setCompact}
+        fixedHeaderHeight={fixedHeaderHeight}
+      />
 
-      {/* Start dashboard body - Battery Card section */}
+      {/* --- Dashboard body - Battery Card section --- */}
       <Box
         sx={{
           flexGrow: 1,
-          pt: `${fixedHeaderHeight}px`,
+          pt: `${fixedHeaderHeight + 56}px`,
           pb: 4,
           mt: 3,
           display: "flex",
@@ -207,7 +195,7 @@ function Dashboard() {
                     balanced: balancedRanks[originalBatteries.indexOf(battery)],
                   }}
                   selectedFilter={selectedFilter}
-                  compact={compact} // <-- Pass compact prop
+                  compact={compact}
                 />
               </Grid>
             ))}

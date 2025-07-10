@@ -30,6 +30,7 @@ function Dashboard() {
   const [error, setError] = useState(null);
   const [selectedFilter, setSelectedFilter] = useState("durability_score");
   const [compact, setCompact] = useState(false);
+  const [reverse, setReverse] = useState(false);
 
   const fixedHeaderRef = useRef(null);
   const [fixedHeaderHeight, setFixedHeaderHeight] = useState(0);
@@ -61,18 +62,21 @@ function Dashboard() {
 
   useEffect(() => {
     if (originalBatteries.length > 0) {
-      const sorted = [...originalBatteries].sort((a, b) => {
+      let sorted = [...originalBatteries].sort((a, b) => {
         const scoreA = a[selectedFilter];
         const scoreB = b[selectedFilter];
         return scoreB - scoreA;
       });
+      if (reverse) {
+        sorted = sorted.reverse();
+      }
       setSortedBatteries(sorted);
 
       if (scrollPositionRef.current > 0) {
         restoreScrollPosition();
       }
     }
-  }, [originalBatteries, selectedFilter, restoreScrollPosition]);
+  }, [originalBatteries, selectedFilter, restoreScrollPosition, reverse]);
 
   useEffect(() => {
     if (fixedHeaderRef.current) {
@@ -162,6 +166,8 @@ function Dashboard() {
         compact={compact}
         setCompact={setCompact}
         fixedHeaderHeight={fixedHeaderHeight}
+        reverse={reverse}
+        setReverse={setReverse}
       />
 
       {/* --- Dashboard body - Battery Card section --- */}

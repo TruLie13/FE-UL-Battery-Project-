@@ -1,14 +1,22 @@
-// src/components/dashboard/DashboardActionBar.jsx
-
-import { Box, Container, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import {
+  Box,
+  Container,
+  ToggleButton,
+  ToggleButtonGroup,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
 import ViewModuleIcon from "@mui/icons-material/ViewModule";
 import ViewListIcon from "@mui/icons-material/ViewList";
+import SwapVertIcon from "@mui/icons-material/SwapVert";
 
 export default function DashboardActionBar({
   compact,
   setCompact,
   fixedHeaderHeight,
-  children, // for future extensibility (additional buttons)
+  reverse,
+  setReverse,
+  children,
 }) {
   return (
     <Box
@@ -25,6 +33,39 @@ export default function DashboardActionBar({
     >
       <Container maxWidth="md">
         <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
+          <Tooltip title={reverse ? "Show best first" : "Show worst first"}>
+            <IconButton
+              aria-label="Reverse order"
+              onClick={() => setReverse((v) => !v)}
+              size="large"
+              sx={{
+                color: reverse ? "#2196f3" : "rgba(255,255,255,0.7)",
+                border: "1px solid",
+                borderColor: reverse ? "#2196f3" : "rgba(255,255,255,0.2)",
+                backgroundColor: reverse ? "rgba(33,150,243,0.08)" : "none",
+                borderRadius: 2,
+                transition: "all 0.2s",
+                "&:hover": {
+                  borderColor: "#2196f3",
+                  color: "#2196f3",
+                  backgroundColor: "rgba(33,150,243,0.12)",
+                },
+                "&.Mui-focusVisible": {
+                  outline: "none",
+                  boxShadow: "none",
+                  border: "1px solid #2196f3",
+                },
+                "&:focus": {
+                  outline: "none",
+                  boxShadow: "none",
+                },
+              }}
+            >
+              <SwapVertIcon />
+            </IconButton>
+          </Tooltip>
+
+          {/* View toggle */}
           <ToggleButtonGroup
             value={compact ? "compact" : "full"}
             exclusive
@@ -55,7 +96,7 @@ export default function DashboardActionBar({
                 "&.Mui-focusVisible": {
                   outline: "none",
                   boxShadow: "none",
-                  border: "1px solid #2196f3", // or your existing selected border
+                  border: "1px solid #2196f3",
                 },
                 "&:focus": {
                   outline: "none",

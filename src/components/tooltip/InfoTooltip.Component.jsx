@@ -15,12 +15,12 @@ export default function InfoTooltip({ tooltipKey }) {
         size="small"
         sx={{
           ml: 0.5,
-          color: "grey.500", // Use a color from the theme's grey palette
+          color: "grey.500",
           "&:hover": {
-            color: "grey.300", // Optional: change color on hover
+            color: "grey.300",
           },
           "&:focus": {
-            outline: "none", // Disable the focus outline
+            outline: "none",
           },
         }}
         onClick={() => setOpen(true)}

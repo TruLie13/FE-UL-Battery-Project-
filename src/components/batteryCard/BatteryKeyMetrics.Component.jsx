@@ -3,6 +3,7 @@ import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
 import LoopIcon from "@mui/icons-material/Loop";
 import ThermostatIcon from "@mui/icons-material/Thermostat";
 import { Box, Grid, Stack, Typography, alpha } from "@mui/material";
+import InfoTooltip from "../tooltip/InfoTooltip.Component.jsx";
 
 const MetricItem = ({
   icon: Icon,
@@ -84,15 +85,17 @@ export default function BatteryKeyMetrics({
         bgcolor: (theme) => alpha(theme.palette.background.paper, 0.7),
       }}
     >
-      <Typography
-        variant="subtitle1"
-        fontWeight="bold"
-        color="text.primary"
-        mb={1}
-        sx={{ px: { xs: 2, sm: 2, md: 4 }, pt: 1.5 }}
-      >
-        Key Metrics
-      </Typography>
+      <Stack direction="row" alignItems="center" spacing={0} mb={1}>
+        <Typography
+          variant="subtitle1"
+          fontWeight="bold"
+          color="text.primary"
+          sx={{ ml: { xs: 2, sm: 2, md: "2rem" }, mt: 1 }}
+        >
+          Key Metrics
+        </Typography>
+        <InfoTooltip tooltipKey="key_metrics" />
+      </Stack>
       <Box
         sx={{
           pb: 1.5,

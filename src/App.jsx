@@ -1,5 +1,5 @@
 import { ThemeProvider, createTheme, CssBaseline, Box } from "@mui/material";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./components/performanceDashboard/Dashboard.Component";
 
 const darkTheme = createTheme({
   palette: {

@@ -7,9 +7,9 @@ import {
   Typography,
 } from "@mui/material";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { fetchSummaryData } from "../services/batteryApi";
-import BatteryCard from "./BatteryCard";
-import DashboardFilter from "./DashboardFilter.jsx";
+import { fetchSummaryData } from "../../services/batteryApi.js";
+import BatteryCard from "../batteryCard/BatteryCard.Component.jsx";
+import DashboardFilter from "./DashboardFilter.Component.jsx";
 
 function getRankings(batteries, metric) {
   const sorted = [...batteries]

@@ -6,6 +6,7 @@ import {
   alpha,
   useTheme,
 } from "@mui/material";
+import InfoTooltip from "../tooltip/InfoTooltip.Component.jsx";
 
 const ordinalSuffix = (n) => {
   if (n === 1) return "1st";
@@ -115,14 +116,12 @@ export default function PerformanceAnalysis({
         bgcolor: (theme) => alpha(theme.palette.background.paper, 0.7),
       }}
     >
-      <Typography
-        variant="subtitle1"
-        fontWeight="bold"
-        color="text.primary"
-        mb={1}
-      >
-        Performance Analysis
-      </Typography>
+      <Stack direction="row" alignItems="center" spacing={0} mb={1}>
+        <Typography variant="subtitle1" fontWeight="bold" color="text.primary">
+          Performance Analysis
+        </Typography>
+        <InfoTooltip tooltipKey="performance_analysis" />
+      </Stack>
       <Stack spacing={1}>
         {stats.map((stat) => (
           <PerformanceScoreDisplay

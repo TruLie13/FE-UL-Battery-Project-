@@ -11,6 +11,7 @@ import { fetchSummaryData } from "../../services/batteryApi.js";
 import BatteryCard from "../batteryCard/BatteryCard.Component.jsx";
 import DashboardActionBar from "./DashboardActionBar.jsx";
 import DashboardFilter from "./DashboardFilter.Component.jsx";
+import OnboardingDialog from "../onboarding/OnboardingDialog.Component.jsx";
 
 function getRankings(batteries, metric) {
   const sorted = [...batteries]
@@ -31,6 +32,9 @@ function Dashboard() {
   const [selectedFilter, setSelectedFilter] = useState("durability_score");
   const [compact, setCompact] = useState(false);
   const [reverse, setReverse] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(
+    () => !localStorage.getItem("onboardingComplete")
+  );
 
   const fixedHeaderRef = useRef(null);
   const [fixedHeaderHeight, setFixedHeaderHeight] = useState(0);
@@ -128,87 +132,98 @@ function Dashboard() {
   const resilienceRanks = getRankings(originalBatteries, "resilience_score");
   const balancedRanks = getRankings(originalBatteries, "balanced_score");
 
+  const handleCloseOnboarding = () => {
+    setShowOnboarding(false);
+    localStorage.setItem("onboardingComplete", "true");
+  };
+
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      {/* --- Dashboard header - Dashboard Title and Filter --- */}
+    <>
       <Box
-        ref={fixedHeaderRef}
-        sx={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: (theme) => theme.zIndex.appBar + 1,
-          bgcolor: "background.default",
-          boxShadow: 3,
-          py: 2,
-          textAlign: "center",
-        }}
+        sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
       >
-        <Container maxWidth="md">
-          <Typography
-            variant="h5"
-            component="h1"
-            gutterBottom
-            sx={{ mt: 1, fontWeight: "bold" }}
-          >
-            Battery Performance Dashboard
-          </Typography>
-          <DashboardFilter
-            selectedFilter={selectedFilter}
-            onChange={handleFilterChange}
-          />
-        </Container>
-      </Box>
+        {/* --- Dashboard header - Dashboard Title and Filter --- */}
+        <Box
+          ref={fixedHeaderRef}
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: (theme) => theme.zIndex.appBar + 1,
+            bgcolor: "background.default",
+            boxShadow: 3,
+            py: 2,
+            textAlign: "center",
+          }}
+        >
+          <Container maxWidth="md">
+            <Typography
+              variant="h5"
+              component="h1"
+              gutterBottom
+              sx={{ mt: 1, fontWeight: "bold" }}
+            >
+              Battery Performance Dashboard
+            </Typography>
+            <DashboardFilter
+              selectedFilter={selectedFilter}
+              onChange={handleFilterChange}
+            />
+          </Container>
+        </Box>
 
-      {/* --- Dashboard Action Bar --- */}
-      <DashboardActionBar
-        compact={compact}
-        setCompact={setCompact}
-        fixedHeaderHeight={fixedHeaderHeight}
-        reverse={reverse}
-        setReverse={setReverse}
-      />
+        {/* --- Dashboard Action Bar --- */}
+        <DashboardActionBar
+          compact={compact}
+          setCompact={setCompact}
+          fixedHeaderHeight={fixedHeaderHeight}
+          reverse={reverse}
+          setReverse={setReverse}
+        />
 
-      {/* --- Dashboard body - Battery Card section --- */}
-      <Box
-        sx={{
-          flexGrow: 1,
-          pt: `${fixedHeaderHeight + 56}px`,
-          pb: 4,
-          mt: 3,
-          display: "flex",
-          justifyContent: "center",
-          flexDirection: "column",
-        }}
-      >
-        <Container maxWidth="md">
-          <Grid container spacing={3} justifyContent="center">
-            {sortedBatteries.map((battery) => (
-              <Grid
-                item
-                key={`${battery.id}-${selectedFilter}`}
-                xs={12}
-                sx={{ width: "100%", maxWidth: "600px" }}
-              >
-                <BatteryCard
-                  battery={battery}
-                  rankings={{
-                    durability:
-                      durabilityRanks[originalBatteries.indexOf(battery)],
-                    resilience:
-                      resilienceRanks[originalBatteries.indexOf(battery)],
-                    balanced: balancedRanks[originalBatteries.indexOf(battery)],
-                  }}
-                  selectedFilter={selectedFilter}
-                  compact={compact}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
+        {/* --- Dashboard body - Battery Card section --- */}
+        <Box
+          sx={{
+            flexGrow: 1,
+            pt: `${fixedHeaderHeight + 56}px`,
+            pb: 4,
+            mt: 3,
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+          }}
+        >
+          <Container maxWidth="md">
+            <Grid container spacing={3} justifyContent="center">
+              {sortedBatteries.map((battery) => (
+                <Grid
+                  item
+                  key={`${battery.id}-${selectedFilter}`}
+                  xs={12}
+                  sx={{ width: "100%", maxWidth: "600px" }}
+                >
+                  <BatteryCard
+                    battery={battery}
+                    rankings={{
+                      durability:
+                        durabilityRanks[originalBatteries.indexOf(battery)],
+                      resilience:
+                        resilienceRanks[originalBatteries.indexOf(battery)],
+                      balanced:
+                        balancedRanks[originalBatteries.indexOf(battery)],
+                    }}
+                    selectedFilter={selectedFilter}
+                    compact={compact}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          </Container>
+        </Box>
       </Box>
-    </Box>
+      <OnboardingDialog open={showOnboarding} onClose={handleCloseOnboarding} />
+    </>
   );
 }
 

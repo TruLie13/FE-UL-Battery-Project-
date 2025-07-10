@@ -43,7 +43,6 @@ export default function DashboardFilter({ selectedFilter, onChange }) {
             },
           },
           "& .MuiToggleButton-root": {
-            // Text colors for unselected state
             color: "rgba(255, 255, 255, 0.6)",
             border: "1px solid rgba(255, 255, 255, 0.3)",
             "&:hover": {

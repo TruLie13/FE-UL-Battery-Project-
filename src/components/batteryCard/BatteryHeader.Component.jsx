@@ -1,4 +1,5 @@
-import { Box, Grid, Typography, alpha } from "@mui/material";
+import { Box, Grid, Typography, alpha, Stack } from "@mui/material";
+import InfoTooltip from "../tooltip/InfoTooltip.Component.jsx";
 
 export default function BatteryHeader({
   displayIdentifier,
@@ -16,7 +17,6 @@ export default function BatteryHeader({
       sx={{
         p: 1.5,
         bgcolor: (theme) => alpha(theme.palette.primary.main, 0.07),
-
         textAlign: "center",
       }}
     >
@@ -32,6 +32,19 @@ export default function BatteryHeader({
       >
         {displayIdentifier}
       </Typography>
+
+      <Stack
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        spacing={0.5}
+        mb={1}
+      >
+        <Typography variant="subtitle1" fontWeight="bold" color="text.primary">
+          Test Conditions
+        </Typography>
+        <InfoTooltip tooltipKey="test_conditions" />
+      </Stack>
 
       {/* Data Row */}
       <Grid container spacing={5} justifyContent="center" alignItems="center">

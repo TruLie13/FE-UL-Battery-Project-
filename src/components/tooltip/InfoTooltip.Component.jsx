@@ -11,7 +11,20 @@ export default function InfoTooltip({ tooltipKey }) {
 
   return (
     <>
-      <IconButton size="small" sx={{ ml: 0.5 }} onClick={() => setOpen(true)}>
+      <IconButton
+        size="small"
+        sx={{
+          ml: 0.5,
+          color: "grey.500", // Use a color from the theme's grey palette
+          "&:hover": {
+            color: "grey.300", // Optional: change color on hover
+          },
+          "&:focus": {
+            outline: "none", // Disable the focus outline
+          },
+        }}
+        onClick={() => setOpen(true)}
+      >
         <InfoOutlinedIcon fontSize="inherit" />
       </IconButton>
       <InfoDialog

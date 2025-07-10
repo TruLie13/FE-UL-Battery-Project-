@@ -41,6 +41,39 @@ export default function DashboardFilter({ selectedFilter, onChange }) {
               },
             },
           },
+          "& .MuiToggleButton-root": {
+            // Text colors for unselected state
+            color: "rgba(255, 255, 255, 0.6)",
+            border: "1px solid rgba(255, 255, 255, 0.3)",
+            "&:hover": {
+              border: "1px solid rgba(255, 255, 255, 0.5)",
+              color: "rgba(255, 255, 255, 0.8)",
+            },
+            "&.Mui-selected": {
+              border: "1px solid rgba(255, 255, 255, 0.7)",
+              color: "#ffffff",
+              "& .MuiSvgIcon-root": {
+                color: "#2196f3",
+              },
+              "&:focus": {
+                outline: "none !important",
+                boxShadow: "none !important",
+                border: "1px solid rgba(255, 255, 255, 0.7)",
+              },
+            },
+            "&:focus": {
+              outline: "none !important",
+              boxShadow: "none !important",
+              border: "1px solid rgba(255, 255, 255, 0.3)",
+            },
+            "&:focus-visible": {
+              outline: "none !important",
+              boxShadow: "none !important",
+              border: "1px solid rgba(255, 255, 255, 0.3)",
+            },
+            // Remove tap highlight on mobile
+            WebkitTapHighlightColor: "transparent",
+          },
         }}
       >
         <ToggleButton value="durability_score">

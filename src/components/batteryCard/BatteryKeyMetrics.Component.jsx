@@ -85,12 +85,12 @@ export default function BatteryKeyMetrics({
         bgcolor: (theme) => alpha(theme.palette.background.paper, 0.7),
       }}
     >
-      <Stack direction="row" alignItems="center" spacing={0} mb={1}>
+      <Stack direction="row" alignItems="center" spacing={0} mb={1} pt={1.5}>
         <Typography
           variant="subtitle1"
           fontWeight="bold"
           color="text.primary"
-          sx={{ ml: { xs: 2, sm: 2, md: "2rem" }, mt: 1 }}
+          sx={{ ml: { xs: 2, sm: 2, md: "2rem" } }}
         >
           Key Metrics
         </Typography>

@@ -10,7 +10,7 @@ import BatteryHeader from "./BatteryHeader.Component.jsx";
 import BatteryKeyMetrics from "./BatteryKeyMetrics.Component.jsx";
 import PerformanceAnalysis from "./PerformanceAnalysis.jsx";
 
-function BatteryCard({ battery, rankings, selectedFilter }) {
+function BatteryCard({ battery, rankings, selectedFilter, compact }) {
   const theme = useTheme();
 
   if (!battery) {
@@ -76,8 +76,8 @@ function BatteryCard({ battery, rankings, selectedFilter }) {
           voltageType={voltageType}
           cRate={cRate}
           stressTest={stressTest}
+          compact={compact}
         />
-
         <Divider
           sx={{ my: 0, borderColor: alpha(theme.palette.divider, 0.1) }}
         />
@@ -87,6 +87,7 @@ function BatteryCard({ battery, rankings, selectedFilter }) {
           cycleCount={cycleCount}
           overallAvgTemp={overallAvgTemp}
           overallAvgDischarge={overallAvgDischarge}
+          compact={compact}
         />
 
         <Divider
@@ -99,6 +100,7 @@ function BatteryCard({ battery, rankings, selectedFilter }) {
           balancedScore={balancedScore}
           rankings={rankings}
           selectedFilter={selectedFilter}
+          compact={compact}
         />
       </CardContent>
     </Card>

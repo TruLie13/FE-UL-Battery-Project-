@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import InfoTooltip from "../tooltip/InfoTooltip.Component.jsx";
 
+// Utility functions
 const ordinalSuffix = (n) => {
   if (n === 1) return "1st";
   if (n === 2) return "2nd";
@@ -25,6 +26,7 @@ const getScoreColor = (theme, score) => {
   return "error";
 };
 
+// Reusable performance metric display
 function PerformanceScoreDisplay({ label, score, rank }) {
   const theme = useTheme();
   const displayScore = typeof score === "number" ? score.toFixed(4) : "-";
@@ -75,14 +77,16 @@ function PerformanceScoreDisplay({ label, score, rank }) {
   );
 }
 
+// Main PerformanceAnalysis component
 export default function PerformanceAnalysis({
   durabilityScore,
   resilienceScore,
   balancedScore,
   rankings,
   selectedFilter,
+  compact,
 }) {
-  const stats = [
+  const statConfigs = [
     {
       key: "durability_score",
       label: "Durability",
@@ -103,9 +107,9 @@ export default function PerformanceAnalysis({
     },
   ];
 
-  stats.sort((a, b) =>
-    a.key === selectedFilter ? -1 : b.key === selectedFilter ? 1 : 0
-  );
+  // Helper to find the selected stat config
+  const getSelectedStat = () =>
+    statConfigs.find((s) => s.key === selectedFilter) || statConfigs[0];
 
   return (
     <Box
@@ -116,21 +120,41 @@ export default function PerformanceAnalysis({
         bgcolor: (theme) => alpha(theme.palette.background.paper, 0.7),
       }}
     >
-      <Stack direction="row" alignItems="center" spacing={0} mb={1}>
-        <Typography variant="subtitle1" fontWeight="bold" color="text.primary">
-          Performance Analysis
-        </Typography>
-        <InfoTooltip tooltipKey="performance_analysis" />
-      </Stack>
+      {!compact && (
+        <Stack direction="row" alignItems="center" spacing={0} mb={1}>
+          <Typography
+            variant="subtitle1"
+            fontWeight="bold"
+            color="text.primary"
+          >
+            Performance Analysis
+          </Typography>
+          <InfoTooltip tooltipKey="performance_analysis" />
+        </Stack>
+      )}
+
       <Stack spacing={1}>
-        {stats.map((stat) => (
+        {compact ? (
           <PerformanceScoreDisplay
-            key={stat.key}
-            label={stat.label}
-            score={stat.score}
-            rank={stat.rank}
+            label={getSelectedStat().label}
+            score={getSelectedStat().score}
+            rank={getSelectedStat().rank}
           />
-        ))}
+        ) : (
+          statConfigs
+            .slice()
+            .sort((a, b) =>
+              a.key === selectedFilter ? -1 : b.key === selectedFilter ? 1 : 0
+            )
+            .map((stat) => (
+              <PerformanceScoreDisplay
+                key={stat.key}
+                label={stat.label}
+                score={stat.score}
+                rank={stat.rank}
+              />
+            ))
+        )}
       </Stack>
     </Box>
   );

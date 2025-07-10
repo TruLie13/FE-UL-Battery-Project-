@@ -6,6 +6,7 @@ export default function BatteryHeader({
   voltageType,
   cRate,
   stressTest,
+  compact,
 }) {
   const formatLabel = (text) => {
     if (typeof text !== "string" || !text) return "N/A";
@@ -33,18 +34,24 @@ export default function BatteryHeader({
         {displayIdentifier}
       </Typography>
 
-      <Stack
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-        spacing={0.5}
-        mb={1}
-      >
-        <Typography variant="subtitle1" fontWeight="bold" color="text.primary">
-          Test Conditions
-        </Typography>
-        <InfoTooltip tooltipKey="test_conditions" />
-      </Stack>
+      {!compact && (
+        <Stack
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          spacing={0.5}
+          mb={1}
+        >
+          <Typography
+            variant="subtitle1"
+            fontWeight="bold"
+            color="text.primary"
+          >
+            Test Conditions
+          </Typography>
+          <InfoTooltip tooltipKey="test_conditions" />
+        </Stack>
+      )}
 
       {/* Data Row */}
       <Grid container spacing={5} justifyContent="center" alignItems="center">

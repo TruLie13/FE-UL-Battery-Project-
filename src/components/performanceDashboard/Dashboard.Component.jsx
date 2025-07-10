@@ -5,7 +5,11 @@ import {
   Container,
   Grid,
   Typography,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
+import ViewModuleIcon from "@mui/icons-material/ViewModule"; // Full view icon
+import ViewListIcon from "@mui/icons-material/ViewList"; // Compact view icon
 import { useCallback, useEffect, useRef, useState } from "react";
 import { fetchSummaryData } from "../../services/batteryApi.js";
 import BatteryCard from "../batteryCard/BatteryCard.Component.jsx";
@@ -28,6 +32,7 @@ function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedFilter, setSelectedFilter] = useState("durability_score");
+  const [compact, setCompact] = useState(false); // <-- NEW
 
   const fixedHeaderRef = useRef(null);
   const [fixedHeaderHeight, setFixedHeaderHeight] = useState(0);
@@ -111,7 +116,7 @@ function Dashboard() {
           <Typography variant="6" gutterBottom>
             Error: {error}
           </Typography>
-          <Typography>Is your Django backend server running?</Typography>
+          <Typography>Is Django backend server running?</Typography>
         </Alert>
       </Box>
     );
@@ -155,6 +160,22 @@ function Dashboard() {
         </Container>
       </Box>
 
+      {/* --- Compact Toggle Button --- */}
+      <Container maxWidth="md" sx={{ pt: `${fixedHeaderHeight + 8}px`, pb: 1 }}>
+        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Tooltip title={compact ? "Show Full View" : "Show Compact View"}>
+            <IconButton
+              aria-label="toggle compact/full"
+              onClick={() => setCompact((v) => !v)}
+              size="large"
+            >
+              {compact ? <ViewModuleIcon /> : <ViewListIcon />}
+            </IconButton>
+          </Tooltip>
+        </Box>
+      </Container>
+      {/* --- End Toggle Button --- */}
+
       {/* Start dashboard body - Battery Card section */}
       <Box
         sx={{
@@ -186,6 +207,7 @@ function Dashboard() {
                     balanced: balancedRanks[originalBatteries.indexOf(battery)],
                   }}
                   selectedFilter={selectedFilter}
+                  compact={compact} // <-- Pass compact prop
                 />
               </Grid>
             ))}

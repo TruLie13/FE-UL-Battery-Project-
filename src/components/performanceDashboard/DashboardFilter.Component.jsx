@@ -29,6 +29,7 @@ export default function DashboardFilter({ selectedFilter, onChange }) {
         sx={{
           mt: 4,
           mb: 1,
+          p: 0,
           display: "flex",
           justifyContent: "center",
           width: "100%",

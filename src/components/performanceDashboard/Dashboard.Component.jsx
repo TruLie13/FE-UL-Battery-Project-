@@ -1,16 +1,9 @@
-import {
-  Alert,
-  Box,
-  CircularProgress,
-  Container,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Alert, Box, CircularProgress, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { fetchSummaryData } from "../../services/batteryApi.js";
 import AppBarNav from "../appBarNav/AppBarNav.jsx";
-import BatteryCard from "../batteryCard/BatteryCard.Component.jsx";
 import OnboardingDialog from "../onboarding/OnboardingDialog.Component.jsx";
+import BatteryGrid from "./BatteryGrid.Component.jsx";
 import DashboardControls from "./DashboardControls.Component.jsx";
 
 function getRankings(batteries, metric) {
@@ -153,44 +146,20 @@ export default function Dashboard() {
           setReverse={setReverse}
         />
 
-        {/* ---  Scrollable Battery Cards Section ---  */}
-        <Box
-          sx={{
-            flex: 1,
-            minHeight: 0,
-            overflowY: "auto",
-            pt: 3,
-            pb: 4,
+        {/* --- Battery Grid ---  */}
+        <BatteryGrid
+          batteries={sortedBatteries}
+          originalBatteries={originalBatteries}
+          rankings={{
+            durability: durabilityRanks,
+            resilience: resilienceRanks,
+            balanced: balancedRanks,
           }}
-        >
-          <Container maxWidth="md">
-            <Grid container spacing={3} justifyContent="center">
-              {sortedBatteries.map((battery) => (
-                <Grid
-                  item
-                  key={`${battery.id}-${selectedFilter}`}
-                  xs={12}
-                  sx={{ width: "100%", maxWidth: "600px" }}
-                >
-                  <BatteryCard
-                    battery={battery}
-                    rankings={{
-                      durability:
-                        durabilityRanks[originalBatteries.indexOf(battery)],
-                      resilience:
-                        resilienceRanks[originalBatteries.indexOf(battery)],
-                      balanced:
-                        balancedRanks[originalBatteries.indexOf(battery)],
-                    }}
-                    selectedFilter={selectedFilter}
-                    compact={compact}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </Container>
-        </Box>
+          selectedFilter={selectedFilter}
+          compact={compact}
+        />
       </Box>
+
       <OnboardingDialog open={showOnboarding} onClose={handleCloseOnboarding} />
     </>
   );

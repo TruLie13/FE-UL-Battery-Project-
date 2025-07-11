@@ -1,5 +1,5 @@
 import { Alert, Box, CircularProgress, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { fetchSummaryData } from "../../services/batteryApi.js";
 import AppBarNav from "../appBarNav/AppBarNav.Component..jsx";
 import OnboardingDialog from "../onboarding/OnboardingDialog.Component.jsx";
@@ -19,7 +19,6 @@ function getRankings(batteries, metric) {
 
 export default function Dashboard() {
   const [originalBatteries, setOriginalBatteries] = useState([]);
-  const [sortedBatteries, setSortedBatteries] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedFilter, setSelectedFilter] = useState("durability_score");
@@ -46,18 +45,20 @@ export default function Dashboard() {
     getSummary();
   }, []);
 
-  useEffect(() => {
-    if (originalBatteries.length > 0) {
-      let sorted = [...originalBatteries].sort((a, b) => {
-        const scoreA = a[selectedFilter];
-        const scoreB = b[selectedFilter];
-        return scoreB - scoreA;
-      });
-      if (reverse) {
-        sorted = sorted.reverse();
-      }
-      setSortedBatteries(sorted);
+  const sortedBatteries = useMemo(() => {
+    if (originalBatteries.length === 0) return [];
+
+    let sorted = [...originalBatteries].sort((a, b) => {
+      const scoreA = a[selectedFilter];
+      const scoreB = b[selectedFilter];
+      return scoreB - scoreA;
+    });
+
+    if (reverse) {
+      sorted.reverse();
     }
+
+    return sorted;
   }, [originalBatteries, selectedFilter, reverse]);
 
   const handleFilterChange = (event, newFilter) => {

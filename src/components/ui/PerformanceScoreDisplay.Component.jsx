@@ -1,5 +1,3 @@
-// src/components/ui/PerformanceScoreDisplay.jsx
-
 import {
   Box,
   LinearProgress,

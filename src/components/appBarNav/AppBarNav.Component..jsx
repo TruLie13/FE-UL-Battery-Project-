@@ -1,5 +1,3 @@
-// src/components/AppBarNav.js
-
 import MenuIcon from "@mui/icons-material/Menu";
 import {
   AppBar,
@@ -10,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import AppMenu from "./AppMenu.Component."; // Import the new menu component
+import AppMenu from "./AppMenu.Component.";
 
 export default function AppBarNav({ title = "App Title", onShowOnboarding }) {
   const [anchorEl, setAnchorEl] = useState(null);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -199,6 +199,12 @@ export default function OnboardingDialog({ open, onClose }) {
   const [step, setStep] = React.useState(0);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  useEffect(() => {
+    if (open) {
+      setStep(0);
+    }
+  }, [open]);
 
   // Prevent closing by clicking backdrop or Escape
   const handleDialogClose = (event, reason) => {

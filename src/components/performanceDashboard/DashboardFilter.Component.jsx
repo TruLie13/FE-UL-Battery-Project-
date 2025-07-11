@@ -6,6 +6,7 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Typography,
+  Tooltip,
 } from "@mui/material";
 
 // const filterDescriptions = {
@@ -87,15 +88,35 @@ export default function DashboardFilter({ selectedFilter, onChange }) {
           },
         }}
       >
-        <ToggleButton value="durability_score">
-          <DiamondIcon sx={{ mr: 1 }} /> Durability
-        </ToggleButton>
-        <ToggleButton value="resilience_score">
-          <TrendingUpIcon sx={{ mr: 1 }} /> Resilience
-        </ToggleButton>
-        <ToggleButton value="balanced_score">
-          <BalanceIcon sx={{ mr: 1 }} /> Balanced
-        </ToggleButton>
+        <Tooltip
+          title={
+            "Durability: How many times you can use the battery before it wears out."
+          }
+        >
+          <ToggleButton value="durability_score">
+            <DiamondIcon sx={{ mr: 1 }} /> Durability
+          </ToggleButton>
+        </Tooltip>
+
+        <Tooltip
+          title={
+            "Resilience: How much of its original power the battery keeps as it ages."
+          }
+        >
+          <ToggleButton value="resilience_score">
+            <TrendingUpIcon sx={{ mr: 1 }} /> Resilience
+          </ToggleButton>
+        </Tooltip>
+
+        <Tooltip
+          title={
+            "Balanced: How long the battery lasts and how much power it keeps."
+          }
+        >
+          <ToggleButton value="balanced_score">
+            <BalanceIcon sx={{ mr: 1 }} /> Balanced
+          </ToggleButton>
+        </Tooltip>
       </ToggleButtonGroup>
     </Container>
   );

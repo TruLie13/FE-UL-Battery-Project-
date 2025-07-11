@@ -18,37 +18,37 @@ export default function DashboardActionBar({
 }) {
   return (
     <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
-      <Tooltip title={reverse ? "Show best first" : "Show worst first"}>
-        <IconButton
-          aria-label="Reverse order"
-          onClick={() => setReverse((v) => !v)}
-          size="large"
-          sx={{
-            color: reverse ? "#2196f3" : "rgba(255,255,255,0.7)",
-            border: "1px solid",
-            borderColor: reverse ? "#2196f3" : "rgba(255,255,255,0.2)",
-            backgroundColor: reverse ? "rgba(33,150,243,0.08)" : "none",
-            borderRadius: 2,
-            transition: "all 0.2s",
-            "&:hover": {
-              borderColor: "#2196f3",
-              color: "#2196f3",
-              backgroundColor: "rgba(33,150,243,0.12)",
-            },
-            "&.Mui-focusVisible": {
-              outline: "none",
-              boxShadow: "none",
-              border: "1px solid #2196f3",
-            },
-            "&:focus": {
-              outline: "none",
-              boxShadow: "none",
-            },
-          }}
-        >
+      <IconButton
+        aria-label="Reverse order"
+        onClick={() => setReverse((v) => !v)}
+        size="large"
+        sx={{
+          color: reverse ? "#2196f3" : "rgba(255,255,255,0.7)",
+          border: "1px solid",
+          borderColor: reverse ? "#2196f3" : "rgba(255,255,255,0.2)",
+          backgroundColor: reverse ? "rgba(33,150,243,0.08)" : "none",
+          borderRadius: 2,
+          transition: "all 0.2s",
+          "&:hover": {
+            borderColor: "#2196f3",
+            color: "#2196f3",
+            backgroundColor: "rgba(33,150,243,0.12)",
+          },
+          "&.Mui-focusVisible": {
+            outline: "none",
+            boxShadow: "none",
+            border: "1px solid #2196f3",
+          },
+          "&:focus": {
+            outline: "none",
+            boxShadow: "none",
+          },
+        }}
+      >
+        <Tooltip title={reverse ? "Show best first" : "Show worst first"}>
           <SwapVertIcon />
-        </IconButton>
-      </Tooltip>
+        </Tooltip>
+      </IconButton>
 
       {/* View toggle */}
       <ToggleButtonGroup
@@ -91,10 +91,14 @@ export default function DashboardActionBar({
         }}
       >
         <ToggleButton value="full" aria-label="Full view">
-          <ViewListIcon />
+          <Tooltip title={"Show full card"}>
+            <ViewListIcon />
+          </Tooltip>
         </ToggleButton>
         <ToggleButton value="compact" aria-label="Compact view">
-          <ViewModuleIcon />
+          <Tooltip title={"Show compact card"}>
+            <ViewModuleIcon />
+          </Tooltip>
         </ToggleButton>
       </ToggleButtonGroup>
 

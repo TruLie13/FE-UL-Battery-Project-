@@ -1,3 +1,5 @@
+// src/components/AppBarNav.js
+
 import MenuIcon from "@mui/icons-material/Menu";
 import {
   AppBar,
@@ -7,8 +9,20 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
+import AppMenu from "./AppMenu"; // Import the new menu component
 
-export default function AppBarNav({ title = "App Title", onMenuClick }) {
+export default function AppBarNav({ title = "App Title", onShowOnboarding }) {
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <AppBar
       position="sticky"
@@ -31,11 +45,11 @@ export default function AppBarNav({ title = "App Title", onMenuClick }) {
             position: "relative",
           }}
         >
-          {/* Hamburger menu on the left */}
+          {/*  --- Hamburger menu --- */}
           <IconButton
             color="inherit"
             aria-label="menu"
-            onClick={onMenuClick}
+            onClick={handleMenuClick}
             sx={{
               "&:focus": { outline: "none" },
               "&.Mui-focusVisible": { outline: "none", boxShadow: "none" },
@@ -44,7 +58,14 @@ export default function AppBarNav({ title = "App Title", onMenuClick }) {
             <MenuIcon />
           </IconButton>
 
-          {/* Centered title */}
+          {/* --- Menu Component --- */}
+          <AppMenu
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            onShowOnboarding={onShowOnboarding}
+          />
+
+          {/* --- Centered title --- */}
           <Box
             sx={{
               position: "absolute",

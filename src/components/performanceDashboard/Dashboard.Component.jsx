@@ -3,7 +3,6 @@ import {
   Box,
   CircularProgress,
   Container,
-  Drawer,
   Grid,
   Typography,
 } from "@mui/material";
@@ -14,7 +13,6 @@ import BatteryCard from "../batteryCard/BatteryCard.Component.jsx";
 import OnboardingDialog from "../onboarding/OnboardingDialog.Component.jsx";
 import DashboardActionBar from "./DashboardActionBar.jsx";
 import DashboardFilter from "./DashboardFilter.Component.jsx";
-import DashboardDrawer from "../appBarNav/DashboardDrawer.jsx";
 
 function getRankings(batteries, metric) {
   const sorted = [...batteries]
@@ -40,8 +38,7 @@ export default function Dashboard() {
   );
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const handleMenuClick = () => setDrawerOpen(true);
-  const handleDrawerClose = () => setDrawerOpen(false);
+  const handleMenuClick = () => setDrawerOpen(!drawerOpen);
 
   useEffect(() => {
     const getSummary = async () => {
@@ -124,6 +121,7 @@ export default function Dashboard() {
 
   return (
     <>
+      {/* --- NavBar --- */}
       <Box
         sx={{
           position: "sticky",
@@ -131,14 +129,12 @@ export default function Dashboard() {
           zIndex: (theme) => theme.zIndex.appBar,
         }}
       >
-        <AppBarNav title="Battery Dashboard" onMenuClick={handleMenuClick} />
+        <AppBarNav
+          title="Battery Dashboard"
+          onMenuClick={handleMenuClick}
+          onShowOnboarding={handleShowOnboarding}
+        />
       </Box>
-
-      <DashboardDrawer
-        open={drawerOpen}
-        onClose={handleDrawerClose}
-        onShowOnboarding={handleShowOnboarding}
-      />
 
       <Box
         sx={{
@@ -148,7 +144,7 @@ export default function Dashboard() {
           bgcolor: "background.default",
         }}
       >
-        {/* Unified Controls: Filter + Action Bar combined */}
+        {/* --- Unified Controls: Filter + Action Bar combined --- */}
         <Box
           sx={{
             position: "sticky",
@@ -168,7 +164,7 @@ export default function Dashboard() {
                 alignItems: "center",
               }}
             >
-              {/* Filter section */}
+              {/* --- Filter Buttons ---  */}
               <Box sx={{ textAlign: "center" }}>
                 <DashboardFilter
                   selectedFilter={selectedFilter}
@@ -176,7 +172,7 @@ export default function Dashboard() {
                 />
               </Box>
 
-              {/* Action buttons section */}
+              {/* --- Action Buttons --- */}
               <Box sx={{ alignSelf: "flex-end" }}>
                 <DashboardActionBar
                   compact={compact}
@@ -189,7 +185,7 @@ export default function Dashboard() {
           </Container>
         </Box>
 
-        {/* Main scrollable content */}
+        {/* ---  Scrollable Battery Cards Section ---  */}
         <Box
           sx={{
             flex: 1,

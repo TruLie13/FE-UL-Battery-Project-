@@ -1,7 +1,7 @@
 import { Alert, Box, CircularProgress, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { fetchSummaryData } from "../../services/batteryApi.js";
-import AppBarNav from "../appBarNav/AppBarNav.jsx";
+import AppBarNav from "../appBarNav/AppBarNav.Component..jsx";
 import OnboardingDialog from "../onboarding/OnboardingDialog.Component.jsx";
 import BatteryGrid from "./BatteryGrid.Component.jsx";
 import DashboardControls from "./DashboardControls.Component.jsx";

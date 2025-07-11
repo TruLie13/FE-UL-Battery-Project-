@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import BatteryHeader from "./BatteryHeader.Component.jsx";
 import BatteryKeyMetrics from "./BatteryKeyMetrics.Component.jsx";
-import PerformanceAnalysis from "./PerformanceAnalysis.jsx";
+import PerformanceAnalysis from "./PerformanceAnalysis.Component..jsx";
 
 function BatteryCard({ battery, rankings, selectedFilter, compact }) {
   const theme = useTheme();

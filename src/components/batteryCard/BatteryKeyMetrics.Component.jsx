@@ -4,7 +4,7 @@ import LoopIcon from "@mui/icons-material/Loop";
 import ThermostatIcon from "@mui/icons-material/Thermostat";
 import { Box, Grid, Stack, Typography, alpha } from "@mui/material";
 import InfoTooltip from "../ui/tooltop/InfoTooltip.Component.jsx";
-import MetricItem from "../ui/MetricItem.jsx";
+import MetricItem from "../ui/MetricItem.Component..jsx";
 
 const metricGridStyle = {
   minWidth: { xs: "10.3rem", sm: "10rem", md: "5rem" },

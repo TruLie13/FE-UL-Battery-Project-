@@ -1,6 +1,6 @@
 import { Box, Container } from "@mui/material";
 import DashboardFilter from "./DashboardFilter.Component.jsx";
-import DashboardActionBar from "./DashboardActionBar.jsx";
+import DashboardActionBar from "./DashboardActionBar.Component..jsx";
 
 const APPBAR_HEIGHT = 56;
 

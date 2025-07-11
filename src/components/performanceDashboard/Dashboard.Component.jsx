@@ -3,16 +3,20 @@ import {
   Box,
   CircularProgress,
   Container,
+  Drawer,
   Grid,
   Typography,
+  Popover,
 } from "@mui/material";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchSummaryData } from "../../services/batteryApi.js";
 import BatteryCard from "../batteryCard/BatteryCard.Component.jsx";
 import DashboardActionBar from "./DashboardActionBar.jsx";
 import DashboardFilter from "./DashboardFilter.Component.jsx";
 import OnboardingDialog from "../onboarding/OnboardingDialog.Component.jsx";
+import AppBarNav from "../AppBarNav.jsx";
 
+// Helper for rankings
 function getRankings(batteries, metric) {
   const sorted = [...batteries]
     .map((b, idx) => ({ ...b, origIdx: idx }))
@@ -24,7 +28,7 @@ function getRankings(batteries, metric) {
   return ranks;
 }
 
-function Dashboard() {
+export default function Dashboard() {
   const [originalBatteries, setOriginalBatteries] = useState([]);
   const [sortedBatteries, setSortedBatteries] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -35,10 +39,10 @@ function Dashboard() {
   const [showOnboarding, setShowOnboarding] = useState(
     () => !localStorage.getItem("onboardingComplete")
   );
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const fixedHeaderRef = useRef(null);
-  const [fixedHeaderHeight, setFixedHeaderHeight] = useState(0);
-  const scrollPositionRef = useRef(0);
+  const handleMenuClick = () => setDrawerOpen(true);
+  const handleDrawerClose = () => setDrawerOpen(false);
 
   useEffect(() => {
     const getSummary = async () => {
@@ -54,16 +58,6 @@ function Dashboard() {
     getSummary();
   }, []);
 
-  const saveScrollPosition = useCallback(() => {
-    scrollPositionRef.current = window.scrollY;
-  }, []);
-
-  const restoreScrollPosition = useCallback(() => {
-    requestAnimationFrame(() => {
-      window.scrollTo(0, scrollPositionRef.current);
-    });
-  }, []);
-
   useEffect(() => {
     if (originalBatteries.length > 0) {
       let sorted = [...originalBatteries].sort((a, b) => {
@@ -75,22 +69,11 @@ function Dashboard() {
         sorted = sorted.reverse();
       }
       setSortedBatteries(sorted);
-
-      if (scrollPositionRef.current > 0) {
-        restoreScrollPosition();
-      }
     }
-  }, [originalBatteries, selectedFilter, restoreScrollPosition, reverse]);
-
-  useEffect(() => {
-    if (fixedHeaderRef.current) {
-      setFixedHeaderHeight(fixedHeaderRef.current.offsetHeight);
-    }
-  }, [isLoading]);
+  }, [originalBatteries, selectedFilter, reverse]);
 
   const handleFilterChange = (event, newFilter) => {
     if (newFilter !== null) {
-      saveScrollPosition();
       setSelectedFilter(newFilter);
     }
   };
@@ -118,7 +101,7 @@ function Dashboard() {
         p={3}
       >
         <Alert severity="error" sx={{ maxWidth: 500 }}>
-          <Typography variant="6" gutterBottom>
+          <Typography variant="h6" gutterBottom>
             Error: {error}
           </Typography>
           <Typography>Is Django backend server running?</Typography>
@@ -127,7 +110,7 @@ function Dashboard() {
     );
   }
 
-  // Calculate rankings for each metric
+  // Rankings for each metric
   const durabilityRanks = getRankings(originalBatteries, "durability_score");
   const resilienceRanks = getRankings(originalBatteries, "resilience_score");
   const balancedRanks = getRankings(originalBatteries, "balanced_score");
@@ -137,61 +120,89 @@ function Dashboard() {
     localStorage.setItem("onboardingComplete", "true");
   };
 
+  // Heights for sticky stacking (adjust if your bars are taller)
+  const APPBAR_HEIGHT = 56;
+  const UNIFIED_CONTROLS_HEIGHT = 80; // Combined height for filter + actions
+  const TOTAL_HEADER_HEIGHT = APPBAR_HEIGHT + UNIFIED_CONTROLS_HEIGHT;
+
   return (
     <>
+      {/* AppBarNav: sticky at top */}
       <Box
-        sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+        sx={{
+          position: "sticky",
+          top: 0,
+          zIndex: (theme) => theme.zIndex.appBar,
+        }}
       >
-        {/* --- Dashboard header - Dashboard Title and Filter --- */}
+        <AppBarNav title="Battery Dashboard" onMenuClick={handleMenuClick} />
+      </Box>
+
+      {/* Drawer/Menu */}
+      <Drawer anchor="left" open={drawerOpen} onClose={handleDrawerClose}>
+        <Box sx={{ width: 240, p: 2 }}>
+          {/* Leave blank for now. Add links later. */}
+        </Box>
+      </Drawer>
+
+      {/* Whole page layout */}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          height: "100vh",
+          bgcolor: "background.default",
+        }}
+      >
+        {/* Unified Controls: Filter + Action Bar combined */}
         <Box
-          ref={fixedHeaderRef}
           sx={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            zIndex: (theme) => theme.zIndex.appBar + 1,
+            position: "sticky",
+            top: `${APPBAR_HEIGHT}px`,
+            zIndex: (theme) => theme.zIndex.appBar - 1,
             bgcolor: "background.default",
             boxShadow: 3,
             py: 2,
-            textAlign: "center",
           }}
         >
           <Container maxWidth="md">
-            <Typography
-              variant="h5"
-              component="h1"
-              gutterBottom
-              sx={{ mt: 1, fontWeight: "bold" }}
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+                alignItems: "center",
+              }}
             >
-              Battery Performance Dashboard
-            </Typography>
-            <DashboardFilter
-              selectedFilter={selectedFilter}
-              onChange={handleFilterChange}
-            />
+              {/* Filter section */}
+              <Box sx={{ textAlign: "center" }}>
+                <DashboardFilter
+                  selectedFilter={selectedFilter}
+                  onChange={handleFilterChange}
+                />
+              </Box>
+
+              {/* Action buttons section */}
+              <Box sx={{ alignSelf: "flex-end" }}>
+                <DashboardActionBar
+                  compact={compact}
+                  setCompact={setCompact}
+                  reverse={reverse}
+                  setReverse={setReverse}
+                />
+              </Box>
+            </Box>
           </Container>
         </Box>
 
-        {/* --- Dashboard Action Bar --- */}
-        <DashboardActionBar
-          compact={compact}
-          setCompact={setCompact}
-          fixedHeaderHeight={fixedHeaderHeight}
-          reverse={reverse}
-          setReverse={setReverse}
-        />
-
-        {/* --- Dashboard body - Battery Card section --- */}
+        {/* Main scrollable content */}
         <Box
           sx={{
-            flexGrow: 1,
-            pt: `${fixedHeaderHeight + 56}px`,
+            flex: 1,
+            minHeight: 0,
+            overflowY: "auto",
+            pt: 3,
             pb: 4,
-            mt: 3,
-            display: "flex",
-            justifyContent: "center",
-            flexDirection: "column",
           }}
         >
           <Container maxWidth="md">
@@ -226,5 +237,3 @@ function Dashboard() {
     </>
   );
 }
-
-export default Dashboard;

@@ -11,8 +11,7 @@ import { fetchSummaryData } from "../../services/batteryApi.js";
 import AppBarNav from "../appBarNav/AppBarNav.jsx";
 import BatteryCard from "../batteryCard/BatteryCard.Component.jsx";
 import OnboardingDialog from "../onboarding/OnboardingDialog.Component.jsx";
-import DashboardActionBar from "./DashboardActionBar.jsx";
-import DashboardFilter from "./DashboardFilter.Component.jsx";
+import DashboardControls from "./DashboardControls.Component.jsx";
 
 function getRankings(batteries, metric) {
   const sorted = [...batteries]
@@ -144,46 +143,15 @@ export default function Dashboard() {
           bgcolor: "background.default",
         }}
       >
-        {/* --- Unified Controls: Filter + Action Bar combined --- */}
-        <Box
-          sx={{
-            position: "sticky",
-            top: `${APPBAR_HEIGHT}px`,
-            zIndex: (theme) => theme.zIndex.appBar - 1,
-            bgcolor: "background.default",
-            boxShadow: 3,
-            py: 2,
-          }}
-        >
-          <Container maxWidth="md">
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 2,
-                alignItems: "center",
-              }}
-            >
-              {/* --- Filter Buttons ---  */}
-              <Box sx={{ textAlign: "center" }}>
-                <DashboardFilter
-                  selectedFilter={selectedFilter}
-                  onChange={handleFilterChange}
-                />
-              </Box>
-
-              {/* --- Action Buttons --- */}
-              <Box sx={{ alignSelf: "flex-end" }}>
-                <DashboardActionBar
-                  compact={compact}
-                  setCompact={setCompact}
-                  reverse={reverse}
-                  setReverse={setReverse}
-                />
-              </Box>
-            </Box>
-          </Container>
-        </Box>
+        {/* --- Dashboard Controls --- */}
+        <DashboardControls
+          selectedFilter={selectedFilter}
+          onFilterChange={handleFilterChange}
+          compact={compact}
+          setCompact={setCompact}
+          reverse={reverse}
+          setReverse={setReverse}
+        />
 
         {/* ---  Scrollable Battery Cards Section ---  */}
         <Box

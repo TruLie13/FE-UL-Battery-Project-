@@ -1,5 +1,5 @@
 import { Box, Grid, Typography, alpha, Stack } from "@mui/material";
-import InfoTooltip from "../tooltip/InfoTooltip.Component.jsx";
+import InfoTooltip from "../ui/tooltop/InfoTooltip.Component.jsx";
 
 export default function BatteryHeader({
   displayIdentifier,

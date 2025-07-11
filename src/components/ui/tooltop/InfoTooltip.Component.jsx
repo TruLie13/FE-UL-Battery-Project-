@@ -1,7 +1,7 @@
 import { IconButton } from "@mui/material";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { useState } from "react";
-import { tooltipContent } from "../../tooltipContent.jsx";
+import { tooltipContent } from "../../../tooltipContent.jsx";
 import InfoDialog from "./InfoDialog.Component.jsx";
 
 export default function InfoTooltip({ tooltipKey }) {

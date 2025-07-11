@@ -9,29 +9,9 @@ import {
   Tooltip,
 } from "@mui/material";
 
-// const filterDescriptions = {
-//   durability_score:
-//     "Durability: How many times you can use the battery before it wears out.",
-//   resilience_score:
-//     "Resilience: How much of its original power the battery keeps as it ages.",
-//   balanced_score:
-//     "Balanced: How long the battery lasts and how much power it keeps.",
-// };
-
 export default function DashboardFilter({ selectedFilter, onChange }) {
   return (
     <Container maxWidth="md">
-      {/* <Typography
-        variant="body1"
-        color="text.secondary"
-        align="center"
-        sx={{
-          p: 1,
-          color: (theme) => theme.palette.text.secondary,
-        }}
-      >
-        {filterDescriptions[selectedFilter]}
-      </Typography> */}
       <ToggleButtonGroup
         value={selectedFilter}
         exclusive

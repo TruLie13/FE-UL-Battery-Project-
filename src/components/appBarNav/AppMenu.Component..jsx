@@ -25,6 +25,7 @@ export default function AppMenu({ anchorEl, onClose, onShowOnboarding }) {
       anchorEl={anchorEl}
       open={open}
       onClose={onClose}
+      disableScrollLock={true}
       PaperProps={{
         elevation: 0,
         sx: {

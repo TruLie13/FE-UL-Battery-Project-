@@ -17,7 +17,14 @@ export default function DashboardActionBar({
   children,
 }) {
   return (
-    <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "flex-end",
+        gap: 1,
+        pr: { xs: 0, sm: "1rem", md: "8rem" },
+      }}
+    >
       <IconButton
         aria-label="Reverse order"
         onClick={() => setReverse((v) => !v)}

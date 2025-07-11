@@ -6,17 +6,16 @@ import {
   Drawer,
   Grid,
   Typography,
-  Popover,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { fetchSummaryData } from "../../services/batteryApi.js";
+import AppBarNav from "../appBarNav/AppBarNav.jsx";
 import BatteryCard from "../batteryCard/BatteryCard.Component.jsx";
+import OnboardingDialog from "../onboarding/OnboardingDialog.Component.jsx";
 import DashboardActionBar from "./DashboardActionBar.jsx";
 import DashboardFilter from "./DashboardFilter.Component.jsx";
-import OnboardingDialog from "../onboarding/OnboardingDialog.Component.jsx";
-import AppBarNav from "../AppBarNav.jsx";
+import DashboardDrawer from "../appBarNav/DashboardDrawer.jsx";
 
-// Helper for rankings
 function getRankings(batteries, metric) {
   const sorted = [...batteries]
     .map((b, idx) => ({ ...b, origIdx: idx }))
@@ -110,7 +109,6 @@ export default function Dashboard() {
     );
   }
 
-  // Rankings for each metric
   const durabilityRanks = getRankings(originalBatteries, "durability_score");
   const resilienceRanks = getRankings(originalBatteries, "resilience_score");
   const balancedRanks = getRankings(originalBatteries, "balanced_score");
@@ -120,14 +118,12 @@ export default function Dashboard() {
     localStorage.setItem("onboardingComplete", "true");
   };
 
-  // Heights for sticky stacking (adjust if your bars are taller)
   const APPBAR_HEIGHT = 56;
-  const UNIFIED_CONTROLS_HEIGHT = 80; // Combined height for filter + actions
-  const TOTAL_HEADER_HEIGHT = APPBAR_HEIGHT + UNIFIED_CONTROLS_HEIGHT;
+
+  const handleShowOnboarding = () => setShowOnboarding(true);
 
   return (
     <>
-      {/* AppBarNav: sticky at top */}
       <Box
         sx={{
           position: "sticky",
@@ -138,14 +134,12 @@ export default function Dashboard() {
         <AppBarNav title="Battery Dashboard" onMenuClick={handleMenuClick} />
       </Box>
 
-      {/* Drawer/Menu */}
-      <Drawer anchor="left" open={drawerOpen} onClose={handleDrawerClose}>
-        <Box sx={{ width: 240, p: 2 }}>
-          {/* Leave blank for now. Add links later. */}
-        </Box>
-      </Drawer>
+      <DashboardDrawer
+        open={drawerOpen}
+        onClose={handleDrawerClose}
+        onShowOnboarding={handleShowOnboarding}
+      />
 
-      {/* Whole page layout */}
       <Box
         sx={{
           display: "flex",

@@ -1,9 +1,6 @@
 import { Alert, Box, CircularProgress, Typography } from "@mui/material";
-import { useEffect, useState, useMemo } from "react";
-import {
-  fetchSummaryData,
-  fetchHealthCheck,
-} from "../../services/batteryApi.js";
+import { useState, useMemo } from "react";
+import useBatteryData from "../../hooks/useBatteryData";
 import AppBarNav from "../appBarNav/AppBarNav.Component..jsx";
 import OnboardingDialog from "../onboarding/OnboardingDialog.Component.jsx";
 import BatteryGrid from "./BatteryGrid.Component.jsx";
@@ -20,79 +17,26 @@ function getRankings(batteries, metric) {
   return ranks;
 }
 
-const CACHE_KEY_DATA = "battery_summary_data";
-const CACHE_KEY_TIMESTAMP = "battery_data_timestamp";
-
 export default function Dashboard() {
-  const [originalBatteries, setOriginalBatteries] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { batteries: originalBatteries, isLoading, error } = useBatteryData();
+
   const [selectedFilter, setSelectedFilter] = useState("durability_score");
   const [compact, setCompact] = useState(false);
   const [reverse, setReverse] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(
     () => !localStorage.getItem("onboardingComplete")
   );
-  const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const handleMenuClick = () => setDrawerOpen(!drawerOpen);
-
-  useEffect(() => {
-    const manageData = async () => {
-      setIsLoading(true);
-      setError(null);
-
-      try {
-        const healthCheck = await fetchHealthCheck();
-        const backendTimestamp = healthCheck.last_updated;
-        const cachedTimestamp = localStorage.getItem(CACHE_KEY_TIMESTAMP);
-        const cachedData = JSON.parse(localStorage.getItem(CACHE_KEY_DATA));
-
-        if (
-          backendTimestamp &&
-          backendTimestamp === cachedTimestamp &&
-          cachedData
-        ) {
-          console.log("Using cached data.");
-          setOriginalBatteries(cachedData);
-        } else {
-          console.log("Fetching new data from API.");
-          const newData = await fetchSummaryData();
-          setOriginalBatteries(newData);
-
-          localStorage.setItem(CACHE_KEY_DATA, JSON.stringify(newData));
-          if (backendTimestamp) {
-            localStorage.setItem(CACHE_KEY_TIMESTAMP, backendTimestamp);
-          }
-        }
-      } catch (e) {
-        const cachedData = JSON.parse(localStorage.getItem(CACHE_KEY_DATA));
-        if (cachedData) {
-          console.log("API failed, using stale cached data.");
-          setOriginalBatteries(cachedData);
-        } else {
-          setError(e.message);
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    manageData();
-  }, []);
   const sortedBatteries = useMemo(() => {
     if (originalBatteries.length === 0) return [];
-
     let sorted = [...originalBatteries].sort((a, b) => {
       const scoreA = a[selectedFilter];
       const scoreB = b[selectedFilter];
       return scoreB - scoreA;
     });
-
     if (reverse) {
       sorted.reverse();
     }
-
     return sorted;
   }, [originalBatteries, selectedFilter, reverse]);
 
@@ -143,13 +87,10 @@ export default function Dashboard() {
     localStorage.setItem("onboardingComplete", "true");
   };
 
-  const APPBAR_HEIGHT = 56;
-
   const handleShowOnboarding = () => setShowOnboarding(true);
 
   return (
     <>
-      {/* --- NavBar --- */}
       <Box
         sx={{
           position: "sticky",
@@ -159,7 +100,6 @@ export default function Dashboard() {
       >
         <AppBarNav
           title="Battery Dashboard"
-          onMenuClick={handleMenuClick}
           onShowOnboarding={handleShowOnboarding}
         />
       </Box>
@@ -172,7 +112,6 @@ export default function Dashboard() {
           bgcolor: "background.default",
         }}
       >
-        {/* --- Dashboard Controls --- */}
         <DashboardControls
           selectedFilter={selectedFilter}
           onFilterChange={handleFilterChange}
@@ -182,7 +121,6 @@ export default function Dashboard() {
           setReverse={setReverse}
         />
 
-        {/* --- Battery Grid ---  */}
         <BatteryGrid
           batteries={sortedBatteries}
           originalBatteries={originalBatteries}

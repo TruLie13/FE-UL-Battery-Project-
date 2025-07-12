@@ -17,7 +17,6 @@ export default function BatteryKeyMetrics({
   overallAvgDischarge,
   compact,
 }) {
-  console.log("za typeof overallAvgTemp", typeof overallAvgTemp);
   return (
     <Box
       sx={{

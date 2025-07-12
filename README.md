@@ -2,6 +2,10 @@
 
 This project is a React-based Vite front-end application designed to visualize and analyze battery performance data. It features a dynamic dashboard displaying key battery metrics, including State of Health (SOH), cycle count, temperature, and discharge. Batteries can be filtered and ranked based on custom "Durability," "Resilience," and "Balanced" scores.
 
+## 🌐 Live Site
+
+- <a href="https://ul-battery-performance-project.web.app/" target="_blank" rel="noopener noreferrer">https://ul-battery-performance-project.web.app/</a>
+
 ## ✨ Features
 
 - **Interactive Dashboard:** View a list of battery performance cards.

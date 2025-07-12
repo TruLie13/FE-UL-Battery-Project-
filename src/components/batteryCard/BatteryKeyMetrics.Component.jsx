@@ -17,6 +17,7 @@ export default function BatteryKeyMetrics({
   overallAvgDischarge,
   compact,
 }) {
+  console.log("za typeof overallAvgTemp", typeof overallAvgTemp);
   return (
     <Box
       sx={{
@@ -67,7 +68,11 @@ export default function BatteryKeyMetrics({
                 <MetricItem
                   icon={ThermostatIcon}
                   label="Avg Temp"
-                  value={overallAvgTemp}
+                  value={
+                    !isNaN(parseFloat(overallAvgTemp))
+                      ? parseFloat(overallAvgTemp).toFixed(2)
+                      : overallAvgTemp
+                  }
                   unit="°C"
                 />
               </Grid>
@@ -75,7 +80,11 @@ export default function BatteryKeyMetrics({
                 <MetricItem
                   icon={BatteryChargingFullIcon}
                   label="Avg Discharge"
-                  value={overallAvgDischarge}
+                  value={
+                    !isNaN(parseFloat(overallAvgDischarge))
+                      ? parseFloat(overallAvgDischarge).toFixed(2)
+                      : overallAvgDischarge
+                  }
                   unit="Ah"
                 />
               </Grid>

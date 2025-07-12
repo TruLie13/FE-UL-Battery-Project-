@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:8000";
+// const API_URL = "http://localhost:8000";
+const API_URL = "https://be-ul-battery-project.fly.dev";
 
 /**
  * A helper function to handle fetch responses and errors.
@@ -43,4 +44,12 @@ export const fetchBatteryDetail = (voltageType, batteryNumber) => {
  */
 export const fetchBatteryList = (voltageType) => {
   return fetchJson(`${API_URL}/api/batteries/${voltageType}/`);
+};
+
+/**
+ * Fetches the last data update timestamp from the backend.
+ * @returns {Promise<{last_updated: string | null}>} - A promise that resolves to the health check object.
+ */
+export const fetchHealthCheck = () => {
+  return fetchJson(`${API_URL}/api/health-check/`);
 };

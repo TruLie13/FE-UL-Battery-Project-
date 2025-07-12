@@ -1,6 +1,9 @@
 import { Alert, Box, CircularProgress, Typography } from "@mui/material";
 import { useEffect, useState, useMemo } from "react";
-import { fetchSummaryData } from "../../services/batteryApi.js";
+import {
+  fetchSummaryData,
+  fetchHealthCheck,
+} from "../../services/batteryApi.js";
 import AppBarNav from "../appBarNav/AppBarNav.Component..jsx";
 import OnboardingDialog from "../onboarding/OnboardingDialog.Component.jsx";
 import BatteryGrid from "./BatteryGrid.Component.jsx";
@@ -17,6 +20,9 @@ function getRankings(batteries, metric) {
   return ranks;
 }
 
+const CACHE_KEY_DATA = "battery_summary_data";
+const CACHE_KEY_TIMESTAMP = "battery_data_timestamp";
+
 export default function Dashboard() {
   const [originalBatteries, setOriginalBatteries] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -32,19 +38,48 @@ export default function Dashboard() {
   const handleMenuClick = () => setDrawerOpen(!drawerOpen);
 
   useEffect(() => {
-    const getSummary = async () => {
+    const manageData = async () => {
+      setIsLoading(true);
+      setError(null);
+
       try {
-        const data = await fetchSummaryData();
-        setOriginalBatteries(data);
+        const healthCheck = await fetchHealthCheck();
+        const backendTimestamp = healthCheck.last_updated;
+        const cachedTimestamp = localStorage.getItem(CACHE_KEY_TIMESTAMP);
+        const cachedData = JSON.parse(localStorage.getItem(CACHE_KEY_DATA));
+
+        if (
+          backendTimestamp &&
+          backendTimestamp === cachedTimestamp &&
+          cachedData
+        ) {
+          console.log("Using cached data.");
+          setOriginalBatteries(cachedData);
+        } else {
+          console.log("Fetching new data from API.");
+          const newData = await fetchSummaryData();
+          setOriginalBatteries(newData);
+
+          localStorage.setItem(CACHE_KEY_DATA, JSON.stringify(newData));
+          if (backendTimestamp) {
+            localStorage.setItem(CACHE_KEY_TIMESTAMP, backendTimestamp);
+          }
+        }
       } catch (e) {
-        setError(e.message);
+        const cachedData = JSON.parse(localStorage.getItem(CACHE_KEY_DATA));
+        if (cachedData) {
+          console.log("API failed, using stale cached data.");
+          setOriginalBatteries(cachedData);
+        } else {
+          setError(e.message);
+        }
       } finally {
         setIsLoading(false);
       }
     };
-    getSummary();
-  }, []);
 
+    manageData();
+  }, []);
   const sortedBatteries = useMemo(() => {
     if (originalBatteries.length === 0) return [];
 
